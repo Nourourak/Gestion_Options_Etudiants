@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>OptionRessouces.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+OptionRessouces.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">ressources</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">entities</span><span class="s2">.</span><span class="s1">Option</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">metiers</span><span class="s2">.</span><span class="s1">OptionBusiness</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">ws</span><span class="s2">.</span><span class="s1">rs</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">ws</span><span class="s2">.</span><span class="s1">rs</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">MediaType</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">ws</span><span class="s2">.</span><span class="s1">rs</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">Response</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s1">@Path</span><span class="s2">(</span><span class="s3">&quot;/options&quot;</span><span class="s2">)</span>
+<span class="s0">public class </span><span class="s1">OptionRessouces </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">OptionBusiness optionBusiness </span><span class="s2">= </span><span class="s0">new </span><span class="s1">OptionBusiness</span><span class="s2">();</span>
+
+
+
+    <span class="s1">@POST</span>
+    <span class="s1">@Consumes</span><span class="s2">(</span><span class="s1">MediaType</span><span class="s2">.</span><span class="s1">APPLICATION_JSON</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response addOption</span><span class="s2">(</span><span class="s1">Option option</span><span class="s2">) {</span>
+
+        <span class="s0">boolean </span><span class="s1">resultat </span><span class="s2">= </span><span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">addOption</span><span class="s2">(</span><span class="s1">option</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">resultat</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">OK</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">NOT_FOUND</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+
+    <span class="s1">@GET</span>
+    <span class="s1">@Produces</span><span class="s2">(</span><span class="s1">MediaType</span><span class="s2">.</span><span class="s1">APPLICATION_JSON</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response getAll</span><span class="s2">() {</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Option</span><span class="s2">&gt; </span><span class="s1">list </span><span class="s2">= </span><span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">getListeOptions</span><span class="s2">();</span>
+
+        <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">OK</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">entity</span><span class="s2">(</span><span class="s1">list</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+
+    <span class="s1">@GET</span>
+    <span class="s1">@Path</span><span class="s2">(</span><span class="s3">&quot;/domaine&quot;</span><span class="s2">)</span>
+    <span class="s1">@Produces</span><span class="s2">(</span><span class="s1">MediaType</span><span class="s2">.</span><span class="s1">APPLICATION_JSON</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response getByDomaine</span><span class="s2">(</span>
+            <span class="s1">@QueryParam</span><span class="s2">(</span><span class="s3">&quot;domaine&quot;</span><span class="s2">) </span><span class="s1">String domaine</span><span class="s2">) {</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Option</span><span class="s2">&gt; </span><span class="s1">list </span><span class="s2">= </span><span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">getOptionsByDomaine</span><span class="s2">(</span><span class="s1">domaine</span><span class="s2">);</span>
+
+        <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">OK</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">entity</span><span class="s2">(</span><span class="s1">list</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+
+
+    <span class="s1">@DELETE</span>
+    <span class="s1">@Path</span><span class="s2">(</span><span class="s3">&quot;/{code}&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response deleteOption</span><span class="s2">(</span>
+            <span class="s1">@PathParam</span><span class="s2">(</span><span class="s3">&quot;code&quot;</span><span class="s2">) </span><span class="s0">int </span><span class="s1">code</span><span class="s2">) {</span>
+
+        <span class="s0">boolean </span><span class="s1">resultat </span><span class="s2">= </span><span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">deleteOption</span><span class="s2">(</span><span class="s1">code</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">resultat</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">NO_CONTENT</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">NOT_FOUND</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+
+
+    <span class="s1">@PUT</span>
+    <span class="s1">@Path</span><span class="s2">(</span><span class="s3">&quot;/{code}&quot;</span><span class="s2">)</span>
+    <span class="s1">@Consumes</span><span class="s2">(</span><span class="s1">MediaType</span><span class="s2">.</span><span class="s1">APPLICATION_JSON</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response updateOption</span><span class="s2">(</span>
+            <span class="s1">@PathParam</span><span class="s2">(</span><span class="s3">&quot;code&quot;</span><span class="s2">) </span><span class="s0">int </span><span class="s1">code</span><span class="s2">,</span>
+            <span class="s1">Option option</span><span class="s2">) {</span>
+
+        <span class="s0">boolean </span><span class="s1">resultat </span><span class="s2">=</span>
+                <span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">updateOption</span><span class="s2">(</span><span class="s1">code</span><span class="s2">, </span><span class="s1">option</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">resultat</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">OK</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">NOT_FOUND</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+
+    <span class="s1">@GET</span>
+    <span class="s1">@Path</span><span class="s2">(</span><span class="s3">&quot;/{code}&quot;</span><span class="s2">)</span>
+    <span class="s1">@Produces</span><span class="s2">(</span><span class="s1">MediaType</span><span class="s2">.</span><span class="s1">APPLICATION_JSON</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">Response getByCode</span><span class="s2">(</span>
+            <span class="s1">@PathParam</span><span class="s2">(</span><span class="s3">&quot;code&quot;</span><span class="s2">) </span><span class="s0">int </span><span class="s1">code</span><span class="s2">) {</span>
+
+        <span class="s1">Option option </span><span class="s2">=</span>
+                <span class="s1">optionBusiness</span><span class="s2">.</span><span class="s1">getOptionByCode</span><span class="s2">(</span><span class="s1">code</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">option </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">OK</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">entity</span><span class="s2">(</span><span class="s1">option</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+            <span class="s0">return </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Status</span><span class="s2">.</span><span class="s1">NOT_FOUND</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
