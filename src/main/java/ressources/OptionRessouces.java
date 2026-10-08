@@ -32,6 +32,7 @@ public class OptionRessouces {
 
 
     @GET
+    @Path("/List")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
 
